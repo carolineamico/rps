@@ -6,56 +6,108 @@
   </head>
   <body>
   <script>
-      function computerPlay(){
-        let compInt = Math.floor(Math.random() * 3);
+    let computerScore = 0;
+    let playerScore = 0;
+
+    function computerPlay(){
+     let compInt = Math.floor(Math.random() * 3);
         if (compInt == 0) {
-            return "rock";}
+            return "rock";
+        }
         else if (compInt == 1) {
-            return "paper";}
+            return "paper";
+        }
         else {
             return "scissors";
-        };
         }
+    }
 
-        const computerSelection = computerPlay();
-        let playerSelection = prompt("Rock, Paper, Scissors?").toLowerCase();
+    function playerPlay(){
+        let playerChoice = prompt("Rock, Paper, Scissors?").toLowerCase();
 
-        function playRound(playerSelection, computerSelection) {
-            if (playerSelection == computerSelection) {
-                return "It's a tie!";
+            while ((playerChoice !== "rock") && (playerChoice !== "paper") && (playerChoice !== "scissors")){
+                playerChoice = prompt("Please enter a valid choice.").toLowerCase();
             }
-            else if (playerSelection == "rock") {
-                if (computerSelection == "paper") {
-                    return "Paper covers rock. You lose!";
-                } else {
-                    return "Rock smashes scissors. You win!";
+            return playerChoice;
+
+    }
+        
+    function playRound(playerSelection, computerSelection) {
+
+        computerSelection = computerPlay();
+        playerSelection = playerPlay();
+            let result;
+
+            if (playerSelection === computerSelection) {
+                result = "It's a tie!";
+            }
+            else if (playerSelection === "rock") {
+                if (computerSelection === "paper") {
+                    computerScore += 1;
+                    result = "Paper covers rock. You lose!";
+                } 
+                else {
+                    playerScore += 1;
+                    result = "Rock smashes scissors. You win!";
                 }
             }
-            else if (playerSelection == "paper"){
-                if (computerSelection == "rock") {
-                    return "Paper covers rock. You win!";
+            else if (playerSelection === "paper"){
+                if (computerSelection === "rock") {
+                    playerScore += 1;
+                    result = "Paper covers rock. You win!";
                 }
-                else if (computerSelection == "scissors") {
-                    return "Scissors cut paper. You lose!";
+                else if (computerSelection === "scissors") {
+                    computerScore += 1;
+                    result = "Scissors cut paper. You lose!";
                 
                 }
             }
-            else if (playerSelection == "scissors") {
-                if (computerSelection == "rock") {
-                    return "Rock smashes scissors. You lose!";
+            else if (playerSelection === "scissors") {
+                if (computerSelection === "rock") {
+                    computerScore += 1;
+                    result = "Rock smashes scissors. You lose!";
                 }
-                else if (computerSelection == "paper") {
-                    return "Scissors cut paper. You win!";
+                else if (computerSelection === "paper") {
+                    playerScore += 1;
+                    result = "Scissors cut paper. You win!";
                 }
-                }
+            }
             
             else {
-                return "Oops! Error";
+                result = "Oops! Error";
             }
+            return result;
+        }
+        
+        function game() {
+          
+            for (i = 0; i<5; i++) {
+                let result = playRound();
+                if (result.includes("win")) {
+                    console.log(result + ` You won this round! The current score is p:${playerScore}, c:${computerScore}.`);
+                }
+                else if (result.includes("lose")) { 
+                    console.log(result + ` The current score is p: ${playerScore}, c:${computerScore}.`);
+                }
+                else if (result.includes("tie")) {
+                    console.log(result + ` The current score is p: ${playerScore}, c: ${computerScore}`);
+                }
             }
+
+         if (playerScore > computerScore) {
+                console.log("Congratulations! You won.");
+            }
+            else if (playerScore < computerScore) {
+                console.log("Sorry sweaty! You lost.");
+            }
+            else if (playerScore === computerScore) {
+                console.log("Whaaaa?? It's a tie!");
+            }
+        }
         
-        
-       
+
+
+
 
         
 
